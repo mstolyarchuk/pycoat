@@ -1,7 +1,8 @@
 # coding: utf-8
 
 import numpy as np
-import quantities as pq
+
+from pycoat import utils
 
 
 class Layer(object):
@@ -40,10 +41,10 @@ class Filter(object):
 
     def optical_thickness(self, reference, units='nm'):
         nt = [x.nt for x in self.layers]
-        total = pq.Quantity(np.sum(nt) * reference / 4, units='nm')
-        return total.rescale(units=units).item()
+        total = np.sum(nt) * reference / 4
+        return utils.rescale(total, units)
 
     def physical_thickness(self, reference, units='nm'):
         t = [ x.nt / x.n for x in self.layers]
-        total = pq.Quantity(np.sum(t) * reference / 4, units='nm')
-        return total.rescale(units=units).item()
+        total = np.sum(t) * reference / 4
+        return utils.rescale(total, units)
