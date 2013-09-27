@@ -3,7 +3,7 @@
 import re
 from functools import reduce
 
-from .core import Layer
+from .core import Filter, Layer
 
 
 def _flatten(desc, args=None):
@@ -57,8 +57,27 @@ def load(desc, indices):
     --------
     f = load('SHL', {'S': 1.51, 'H': 2.0, 'L': 1.38})
     f
+
+    Notes
+    -----
+    Substrate abbreviation must be placed at the beginning of a description.
     """
-    raise NotImplementedError
+    sub = indices['S']
+    layers = []
+
+    # Cut off the substrate abbreviation
+    desc = desc[1:]
+    layer_re = re.compile('(?P<qwot>[\d\.]+)?(?P<abbr>[A-Z])|(?P=abbr)')
+    for m in layer_re.finditer(_flatten(desc)):
+        if m.group('qwot') is not None:
+            qwot = float(m.group('qwot'))
+        else:
+            qwot = 1.0
+
+        abbr = m.group('abbr')
+        layers.append(Layer(indices[abbr], qwot))
+
+    return Filter(sub, layers)
 
 def dump(afilter):
     """
