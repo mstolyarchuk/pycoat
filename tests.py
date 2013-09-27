@@ -8,6 +8,7 @@ from pycoat.core import Filter, Layer
 from pycoat.hln import load
 from pycoat import utils
 
+
 class TestCore(unittest.TestCase):
     def test_filter_thickness(self):
         f = Filter(1.52, [Layer(1.35, 1), Layer(1.6, 1)])
@@ -33,6 +34,15 @@ class TestHln(unittest.TestCase):
 
 
 class TestUtils(unittest.TestCase):
+    def test_construct_filter(self):
+        indices = {'S': 1.51, 'H': 2.0, 'L': 1.38}
+        thickness = [0.625, 1.0, 0.5]
+        f = utils.construct_filter('SHLH', indices, thickness)
+        self.assertEqual(f.substrate, 1.51)
+        self.assertEqual(f.layers[0].n, 2.0)
+        self.assertEqual(f.layers[0].nt, 0.625)
+
+
     def test_units_conversion(self):
         nm = 500
         values = {
