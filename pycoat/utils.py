@@ -6,6 +6,18 @@ import numpy as np
 from colormath.color_objects import SpectralColor
 
 
+def construct_filter(hln, indicies, thickness):
+    from .core import Filter, Layer
+
+    sub = indicies['S']
+    layers = []
+    for abbr, nt in zip(hln[1:], thickness):
+        l = Layer(indicies[abbr], nt)
+        layers.append(l)
+
+    return Filter(sub, layers)
+
+
 wavelength_conv = {
     'angstrom': 1e-10,
     'nm': 1e-9,

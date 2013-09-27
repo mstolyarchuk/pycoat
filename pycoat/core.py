@@ -2,7 +2,7 @@
 
 import numpy as np
 
-from pycoat import utils
+from . import utils
 
 
 class Layer(object):
