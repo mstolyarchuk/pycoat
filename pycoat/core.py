@@ -3,6 +3,7 @@
 import numpy as np
 import quantities as pq
 
+
 class Layer(object):
     """A single layer of a certain thickness.
 
@@ -31,6 +32,11 @@ class Filter(object):
     def __init__(self, substrate, layers):
         self.substrate = substrate
         self.layers = layers
+
+    @classmethod
+    def from_hln(cls, desc, layers):
+        from .hln import load
+        return load(desc, layers)
 
     def optical_thickness(self, reference, units='nm'):
         nt = [x.nt for x in self.layers]
