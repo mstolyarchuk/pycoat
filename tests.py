@@ -35,11 +35,20 @@ class TestHln(unittest.TestCase):
 
 
 class TestOptimize(unittest.TestCase):
-    def test_brute(self):
+    def setUp(self):
         # The Rosenbrock function
-        rosen = lambda x: .5*(1 - x[0])**2 + (x[1] - x[0]**2)**2
-        vectors = [np.linspace(-1, 2, 4), range(-1, 4)]
-        self.assertEqual(optimize.brute(rosen, vectors), [1.0, 1.0])
+        self.rosen = lambda x: (1 - x[0])**2 + (x[1] - x[0]**2)**2
+
+    def test_brute(self):
+        vectors = [np.linspace(-1, 2, 4), np.arange(-1., 4.)]
+        x0 = optimize.brute(self.rosen, vectors)
+        self.assertEqual(x0, [1., 1.])
+
+    def test_brute_full_output(self):
+        vectors = [np.linspace(-1, 2, 4), np.arange(-1., 4.)]
+        rv = optimize.brute(self.rosen, vectors, full_output=True)
+        self.assertEqual(rv['x0'], [1., 1.])
+        self.assertEqual(rv['Jbest'][-1][0], 0)
 
 
 class TestUtils(unittest.TestCase):
