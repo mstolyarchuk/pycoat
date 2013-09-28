@@ -3,10 +3,11 @@
 from __future__ import division
 
 import unittest
+import numpy as np
 
+from pycoat import optimize, utils
 from pycoat.core import Filter, Layer
 from pycoat.hln import load
-from pycoat import utils
 
 
 class TestCore(unittest.TestCase):
@@ -31,6 +32,14 @@ class TestHln(unittest.TestCase):
     def test_dump(self):
         f = load('SHLHL', {'S': 1.51, 'H': 2.0, 'L': 1.38})
         self.assertEqual(f.dump(), 'S(HL)^2')
+
+
+class TestOptimize(unittest.TestCase):
+    def test_brute(self):
+        # The Rosenbrock function
+        rosen = lambda x: .5*(1 - x[0])**2 + (x[1] - x[0]**2)**2
+        vectors = [np.linspace(-1, 2, 4), range(-1, 4)]
+        self.assertEqual(optimize.brute(rosen, vectors), [1.0, 1.0])
 
 
 class TestUtils(unittest.TestCase):
