@@ -3,7 +3,7 @@
 import numpy as np
 
 from .. import fresnel, core
-from .utils import rta_to_xyz
+from ..utils import construct_filter, rta_to_xyz
 
 
 def spectral(thickness, hln, indicies, targets, reference, prop='R'):
