@@ -36,12 +36,10 @@ def brute(f, vectors, args=(), start_from=None,
     -------
     x0 : ndarray
         Value of arguments to `func`, giving minimum over the grid.
-    y0 : float
-        Function value at minimum.
     last_point : tuple
         Last point.
     Jbest : ndarray
-        Array of tuple with information about `max_best` last result.
+        Array of tuple with information about `max_best` last results.
     """
     if start_from:
         if len(start_from) != len(vectors):
