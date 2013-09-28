@@ -25,22 +25,6 @@ def _calculate_rta(M, n_s, n_a):
 
 
 def _rta_wavelength(f, arange, reference, angle=0, pol=None):
-    """Determines wavelength dependence of reflectance, transmittance and
-    absorptance of a coating.
-
-    Parameters
-    ----------
-    f : Optical filter
-    arange : array_like
-        The measurement wavelength range.
-    reference :
-        The reference wavelength.
-    angle : number, optional
-        The angle of incidence.
-    pol : 'S' or 'P', optional
-        Specifies a polarization state (the default is None, which means
-        do both calculations).
-    """
     n_s, n_a = f.substrate, 1.0
 
     angle = np.deg2rad(angle)
@@ -94,6 +78,22 @@ def _rta_wavelength(f, arange, reference, angle=0, pol=None):
 
 
 def rta_wavelength(f, arange, reference, angle=0, pol=None):
+    """Determines wavelength dependence of reflectance, transmittance and
+    absorptance of a coating.
+
+    Parameters
+    ----------
+    f : Optical filter
+    arange : array_like
+        The measurement wavelength range.
+    reference :
+        The reference wavelength.
+    angle : number, optional
+        The angle of incidence.
+    pol : 'S' or 'P', optional
+        Specifies a polarization state (the default is None, which means
+        do both calculations).
+    """
     if angle == 0:
         return _rta_wavelength(f, arange, reference)
     else:
