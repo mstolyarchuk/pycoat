@@ -6,8 +6,8 @@ from itertools import product
 
 
 def brute(f, vectors, args=(), start_from=None,
-          max_iter=None, max_best=100, full_output=0,
-          callback=None):
+          maxiter=None, maxbest=100, full_output=0,
+          callback=None, after_append=None):
     """Minimize a function over a given range by brute force.
 
     Parameters
@@ -18,9 +18,9 @@ def brute(f, vectors, args=(), start_from=None,
         Each element is a sequence of possible values of the function args.
     args : tuple, optional
         Extra arguments passed to `f`.
-    max_iter : int, optional
+    maxiter : int, optional
         Maximum number of iteration to perform.
-    max_best : int, optional
+    maxbest : int, optional
         Maximum number of the best parameters to return.
     full_output : bool, optional
         If set to `True`, return x0, point and Jbest
@@ -39,7 +39,7 @@ def brute(f, vectors, args=(), start_from=None,
     last_point : tuple
         Last point.
     Jbest : ndarray
-        Array of tuple with information about `max_best` last results.
+        Array of tuple with information about `maxbest` last results.
     """
     if start_from:
         if len(start_from) != len(vectors):
@@ -48,7 +48,7 @@ def brute(f, vectors, args=(), start_from=None,
 
     N = len(vectors)
     # (y, params, point)
-    Jbest = deque([(sys.maxsize, None, None)], maxlen=max_best)
+    Jbest = deque([(sys.maxsize, None, None)], maxlen=maxbest)
 
     if start_from:
         loops = [range(x, len(v)) for x, v in zip(start_from, vectors)]
@@ -61,9 +61,11 @@ def brute(f, vectors, args=(), start_from=None,
         J = (y, params, point)
         if J[0] <= Jbest[-1][0]:
             Jbest.append(J)
+            if callable(after_append):
+                after_append(J)
         if callable(callback):
             callback(i, J)
-        if i == max_iter:
+        if i == maxiter:
             break
 
     y0, x0, _ = Jbest[-1]
