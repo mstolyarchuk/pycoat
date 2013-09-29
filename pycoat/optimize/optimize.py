@@ -7,7 +7,7 @@ from itertools import product
 
 def brute(f, vectors, args=(), start_from=None,
           maxiter=None, maxbest=100, full_output=0,
-          callback=None, after_append=None):
+          callback=None, best_hook=None):
     """Minimize a function over a given range by brute force.
 
     Parameters
@@ -61,8 +61,8 @@ def brute(f, vectors, args=(), start_from=None,
         J = (y, params, point)
         if J[0] <= Jbest[-1][0]:
             Jbest.append(J)
-            if callable(after_append):
-                after_append(J)
+            if callable(best_hook):
+                best_hook(J)
         if callable(callback):
             callback(i, J)
         if i == maxiter:
