@@ -1,5 +1,4 @@
 Cython==0.19.1
-argparse==1.2.1
-numpy==1.7.1
-scipy==0.14.0.dev-46eb02f
-wsgiref==0.1.2
+colormath==1.0.8
+numpy==1.9.0.dev-0e195ab
+scipy==0.14.0.dev-a3e9c7f
